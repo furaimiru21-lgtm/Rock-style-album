@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nossa Viagem - Rock Edition</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=UnifrakturMaguntia&family=Special+Elite&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Special Elite', cursive, sans-serif;
+        background-color: #050505;
+        color: #e0e0e0;
+        padding: 30px 20px;
+        min-height: 100vh;
+        background-image:
+        radial-gradient(circle at 10% 20%, rgba(185, 28, 28, 0.2) 0%, transparent 40%),
+          radial-gradient(circle at 90% 80%, rgba(185, 28, 28, 0.2) 0%, transparent 40%),
+          linear-gradient(to right, #110303 0%, #050505 12%, #050505 88%, #110303 100%);
+        position: relative;
+      }
+      body::before,
+      body::after {
+        content: "";
+        display: none;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 35px;
+      }
+
+      h1.gothic-title {
+        font-family: 'UnifrakturMaguntia', cursive;
+        font-size: 4rem;
+        color: #ef4444;
+        text-shadow: 3px 3px 0px #000, 0 0 15px rgba(239, 68, 68, 0.7);
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        color: #a1a1aa;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        border-top: 1px solid #3f3f46;
+        border-bottom: 1px solid #3f3f46;
+        display: inline-block;
+        padding: 4px 15px;
+      }
+
+      .control-panel {
+        max-width: 520px;
+        margin: 0 auto 40px auto;
+        background: #0d0d0d;
+        padding: 25px;
+        border-radius: 4px;
+        border: 1px solid #7f1d1d;
+        box-shadow: 0 0 25px rgba(185, 28, 28, 0.25);
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+
+      label {
+        display: block;
+        font-size: 0.85rem;
+        color: #f87171;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+      }
+
+      input[type='file'],
+      input[type='text'] {
+        width: 100%;
+        padding: 12px 14px;
+        background: #1f1f1f;
+        border: 1px solid #7f1d1d;
+        border-radius: 6px;
+        color: #f5f5f5;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      input[type='text']:focus,
+      input[type='file']:focus {
+        border-color: #ef4444;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+      }
+
+      .button-row {
+        display: flex;
+        justify-content: center;
+        margin-top: 24px;
+      }
+
+      button {
+        background: linear-gradient(135deg, #dc2626, #7f1d1d);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        padding: 12px 22px;
+        font-size: 0.95rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 0 18px rgba(220, 38, 38, 0.35);
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.08);
+      }
+
+      .trip-list {
+        max-width: 860px;
+        margin: 0 auto;
+        display: grid;
+        gap: 16px;
+      }
+
+      .trip-item {
+        background: rgba(17, 17, 17, 0.92);
+        border: 1px solid #3f3f46;
+        border-left: 4px solid #dc2626;
+        padding: 18px 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+      }
+
+      .trip-item h2 {
+        color: #f87171;
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+      }
+
+      .trip-item p {
+        color: #d4d4d8;
+        line-height: 1.6;
+      }
+
+      .trip-photo-button {
+        width: 100%;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin-top: 14px;
+        cursor: pointer;
+        border-radius: 8px;
+        overflow: hidden;
+        display: block;
+      }
+
+      .trip-photo {
+        width: 100%;
+        max-height: 260px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid rgba(239, 68, 68, 0.5);
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.18);
+        display: block;
+      }
+
+      .trip-photo-button:hover .trip-photo {
+        filter: brightness(1.08);
+      }
+
+      .trip-delete-button {
+        margin-top: 12px;
+        background: linear-gradient(135deg, #ef4444, #7f1d1d);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        padding: 10px 18px;
+        font-size: 0.8rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.25);
+      }
+
+      .trip-delete-button:hover {
+        filter: brightness(1.08);
+      }
+
+      .trip-photo-placeholder {
+        margin-top: 14px;
+        padding: 18px 12px;
+        border: 1px dashed rgba(239, 68, 68, 0.5);
+        border-radius: 8px;
+        color: #a1a1aa;
+        text-align: center;
+        letter-spacing: 1.5px;
+      }
+
+      .empty-state {
+        max-width: 860px;
+        margin: 0 auto;
+        background: rgba(17, 17, 17, 0.92);
+        border: 1px solid rgba(239, 68, 68, 0.5);
+        border-left: 4px solid #dc2626;
+        color: #f5f5f5;
+        padding: 18px 20px;
+        border-radius: 8px;
+        text-align: center;
+        letter-spacing: 1.5px;
+      }
+
+      .photo-modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.92);
+        z-index: 1000;
+        padding: 24px;
+      }
+
+      .photo-modal.open {
+        display: flex;
+        animation: fadeInModal 0.25s ease;
+      }
+
+      @keyframes fadeInModal {
+        from {
+          opacity: 0;
+          transform: scale(0.96);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .photo-modal-content {
+        position: relative;
+        max-width: 95vw;
+        max-height: 95vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .photo-modal-image {
+        max-width: 100%;
+        max-height: 78vh;
+        object-fit: contain;
+        border-radius: 14px;
+        border: 2px solid rgba(239, 68, 68, 0.5);
+        box-shadow: 0 0 35px rgba(239, 68, 68, 0.3);
+        background: #111;
+        user-select: none;
+        transition: transform 0.2s ease;
+      }
+
+      .photo-modal-image:hover {
+        transform: scale(1.02);
+      }
+
+      .photo-modal-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 52px;
+        height: 52px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(220, 38, 38, 0.9);
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        box-shadow: 0 0 18px rgba(220, 38, 38, 0.45);
+        z-index: 2;
+      }
+
+      .photo-modal-nav.prev {
+        left: -16px;
+      }
+
+      .photo-modal-nav.next {
+        right: -16px;
+      }
+
+      .photo-modal-close {
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        width: 52px;
+        height: 52px;
+        border: none;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ef4444, #7f1d1d);
+        color: white;
+        font-size: 1.7rem;
+        cursor: pointer;
+        box-shadow: 0 0 18px rgba(220, 38, 38, 0.5);
+      }
+
+      .photo-modal-thumbnails {
+        position: absolute;
+        bottom: -72px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        max-width: min(90vw, 620px);
+        overflow-x: auto;
+        padding: 8px 12px 12px;
+      }
+
+      .photo-thumbnail {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid transparent;
+        opacity: 0.7;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+      }
+
+      .photo-thumbnail.active {
+        border-color: #ef4444;
+        opacity: 1;
+        box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 35px;
+        color: #a1a1aa;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 class="gothic-title">Nossa Viagem</h1>
+      <div class="subtitle">Rock Edition / Edición Rock</div>
+    </header>
+
+    <section class="control-panel">
+      <form id="trip-form">
+        <div class="form-group">
+          <label for="city">Cidade / Ciudad</label>
+          <input type="text" id="city" name="city" placeholder="Ex.: São Paulo / Ej.: São Paulo" />
+        </div>
+
+        <div class="form-group">
+          <label for="date">Data / Fecha</label>
+          <input type="text" id="date" name="date" placeholder="Ex.: 12/05/2025 / Ej.: 12/05/2025" />
+        </div>
+
+        <div class="form-group">
+          <label for="photo">Foto o GIF da viagem / Foto o GIF del viaje</label>
+          <input type="file" id="photo" name="photo" accept="image/*,.gif,.webp" />
+        </div>
+
+        <div class="button-row">
+          <button type="submit">Salvar viagem / Guardar viaje</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="trip-list" id="trip-list"></section>
+
+    <footer>⚡ Entre sons, estradas e lembranças ⚡</footer>
+
+    <script>
+      const form = document.getElementById('trip-form');
+      const tripList = document.getElementById('trip-list');
+      const STORAGE_KEY = 'rock-trip-entries';
+
+      const defaultTrips = [];
+
+      function loadTrips() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+          const validTrips = Array.isArray(saved) ? saved.filter((trip) => trip && trip.photo) : [];
+          return validTrips.length ? validTrips : defaultTrips;
+        } catch (error) {
+          return defaultTrips;
+        }
+      }
+
+      function saveTrips() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(trips));
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function readFileAsDataUrl(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error('Não foi possível ler a imagem.'));
+          reader.readAsDataURL(file);
+        });
+      }
+
+      const trips = loadTrips();
+
+      const photoModal = document.createElement('div');
+      photoModal.className = 'photo-modal';
+      photoModal.innerHTML = `
+        <div class="photo-modal-content">
+          <button type="button" class="photo-modal-nav prev" aria-label="Foto anterior">‹</button>
+          <button type="button" class="photo-modal-close" aria-label="Fechar visualização / Cerrar vista">×</button>
+          <img class="photo-modal-image" src="" alt="Visualização completa da foto / Vista completa de la foto" />
+          <button type="button" class="photo-modal-nav next" aria-label="Próxima foto">›</button>
+          <div class="photo-modal-thumbnails"></div>
+        </div>
+      `;
+      document.body.appendChild(photoModal);
+
+      let activePhotoIndex = 0;
+      let galleryPhotos = [];
+
+      function updateGalleryPhotos() {
+        galleryPhotos = trips
+          .filter((trip) => trip && trip.photo)
+          .map((trip) => ({
+            src: trip.photo,
+            alt: `Foto de ${trip.city} / Foto de ${trip.city}`
+          }));
+      }
+
+      function renderThumbnails() {
+        const thumbnailsContainer = photoModal.querySelector('.photo-modal-thumbnails');
+        thumbnailsContainer.innerHTML = galleryPhotos
+          .map((photo, index) => `
+            <img
+              class="photo-thumbnail ${index === activePhotoIndex ? 'active' : ''}"
+              src="${photo.src}"
+              alt="Miniatura ${index + 1}"
+              data-index="${index}"
+            />
+          `)
+          .join('');
+
+        thumbnailsContainer.querySelectorAll('.photo-thumbnail').forEach((thumb) => {
+          thumb.addEventListener('click', () => {
+            const index = Number(thumb.dataset.index);
+            showPhotoByIndex(index);
+          });
+        });
+      }
+
+      function showPhotoByIndex(index) {
+        if (!galleryPhotos.length) return;
+
+        activePhotoIndex = (index + galleryPhotos.length) % galleryPhotos.length;
+        const currentPhoto = galleryPhotos[activePhotoIndex];
+        const modalImage = photoModal.querySelector('.photo-modal-image');
+        modalImage.src = currentPhoto.src;
+        modalImage.alt = currentPhoto.alt;
+        renderThumbnails();
+      }
+
+      function openPhotoModal(src, alt, index = 0) {
+        updateGalleryPhotos();
+
+        const selectedIndex = galleryPhotos.findIndex((photo) => photo.src === src && photo.alt === alt);
+        activePhotoIndex = selectedIndex >= 0 ? selectedIndex : index;
+
+        showPhotoByIndex(activePhotoIndex);
+        photoModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closePhotoModal() {
+        photoModal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      photoModal.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target === photoModal) {
+          closePhotoModal();
+          return;
+        }
+
+        if (target.classList.contains('photo-modal-nav')) {
+          const direction = target.classList.contains('next') ? 1 : -1;
+          showPhotoByIndex(activePhotoIndex + direction);
+          return;
+        }
+
+        if (target !== photoModal.querySelector('.photo-modal-image')) {
+          return;
+        }
+
+        const nextIndex = activePhotoIndex + 1;
+        showPhotoByIndex(nextIndex);
+      });
+
+      photoModal.querySelector('.photo-modal-close').addEventListener('click', closePhotoModal);
+      photoModal.querySelector('.photo-modal-nav.prev').addEventListener('click', () => showPhotoByIndex(activePhotoIndex - 1));
+      photoModal.querySelector('.photo-modal-nav.next').addEventListener('click', () => showPhotoByIndex(activePhotoIndex + 1));
+
+      document.addEventListener('keydown', (event) => {
+        if (!photoModal.classList.contains('open')) return;
+
+        if (event.key === 'Escape') {
+          closePhotoModal();
+        } else if (event.key === 'ArrowRight') {
+          showPhotoByIndex(activePhotoIndex + 1);
+        } else if (event.key === 'ArrowLeft') {
+          showPhotoByIndex(activePhotoIndex - 1);
+        }
+      });
+
+      function renderTrips() {
+        const validTrips = trips.filter((trip) => trip && trip.photo);
+
+        if (!validTrips.length) {
+          tripList.innerHTML = '<div class="empty-state">No hay fotos guardadas / Nenhuma foto salva</div>';
+          return;
+        }
+
+        tripList.innerHTML = validTrips
+          .map((trip, index) => {
+            const safeCity = escapeHtml(trip.city);
+            const safeDate = escapeHtml(trip.date);
+            const safeDescription = escapeHtml(trip.description);
+            const originalIndex = trips.findIndex((item) => item === trip);
+
+            return `
+              <article class="trip-item">
+                <h2>${safeCity}</h2>
+                <p><strong>Data:</strong> ${safeDate}</p>
+                <p>${safeDescription}</p>
+                <button type="button" class="trip-photo-button" aria-label="Abrir foto de ${safeCity} / Abrir foto de ${safeCity}" title="Ver foto em tela cheia / Ver foto a pantalla completa">
+                  <img class="trip-photo" src="${trip.photo}" alt="Foto de ${safeCity} / Foto de ${safeCity}" />
+                </button>
+                <button type="button" class="trip-delete-button" data-index="${originalIndex}" aria-label="Excluir foto de ${safeCity} / Eliminar foto de ${safeCity}">Excluir foto / Eliminar foto</button>
+              </article>
+            `;
+          })
+          .join('');
+
+        tripList.querySelectorAll('.trip-photo-button').forEach((button) => {
+          const img = button.querySelector('img');
+          button.addEventListener('click', () => {
+            openPhotoModal(img.src, img.alt);
+          });
+        });
+
+        tripList.querySelectorAll('.trip-delete-button').forEach((button) => {
+          button.addEventListener('click', () => {
+            const tripIndex = Number(button.dataset.index);
+            if (Number.isNaN(tripIndex)) return;
+
+            const confirmDelete = window.confirm('¿Quieres eliminar esta foto y su registro? / Você quer excluir esta foto e o registro dela?');
+            if (!confirmDelete) return;
+
+            trips.splice(tripIndex, 1);
+            saveTrips();
+            renderTrips();
+          });
+        });
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const city = document.getElementById('city').value.trim();
+        const date = document.getElementById('date').value.trim();
+        const photo = document.getElementById('photo').files[0];
+
+        if (!city || !date) {
+          alert('Preencha cidade e data antes de salvar. / Completa la ciudad y la fecha antes de guardar.');
+          return;
+        }
+
+        if (!photo) {
+          alert('Selecione uma foto ou GIF para registrar a viagem. / Selecciona una foto o GIF para guardar el viaje.');
+          return;
+        }
+
+        let photoDataUrl = null;
+
+        try {
+          photoDataUrl = await readFileAsDataUrl(photo);
+        } catch (error) {
+          alert(error.message);
+          return;
+        }
+
+        const description = `Rota marcada por ${city} em ${date}.`;
+        trips.unshift({ city, date, description, photo: photoDataUrl });
+        saveTrips();
+        renderTrips();
+        form.reset();
+      });
+
+      renderTrips();
+    </script>
+  </body>
+</html>
